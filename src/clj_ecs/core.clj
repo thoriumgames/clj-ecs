@@ -26,7 +26,7 @@
   `(assoc ~entity ~(keyword (lower-case comp-name)) ~comp))
 
 (defn- name->system [name]
-  (symbol (str name "-system")))
+  (symbol (str (lower-case name) "-system")))
 
 (defn- add-observer-to* [system observer]
   (swap! system update-in [:observers] conj observer))
