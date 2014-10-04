@@ -26,7 +26,7 @@ In order to create a system:
 
 This creates a system that handles the position of entities.
 
-For more: [go here.](/tree/master/doc/intro.md)
+For more: [go here.](/doc/intro.md)
 
 ## License
 
