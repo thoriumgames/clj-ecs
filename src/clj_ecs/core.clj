@@ -1,16 +1,20 @@
 (ns clj-ecs.core
   (:use [clojure.string :exclude [replace reverse]]))
 
-(defmacro component [name args & body]
+(defmacro component [name args]
   "Defines a new component. Simply a function that returns a map."
-  `(defn ~name ~args (hash-map ~@body)))
+  `(defn ~name ~args ~(reduce conj (for [arg args]
+                                     {(keyword arg) arg}))))
 
-(defmacro system [sys-name comps]
+(defmacro observer [name]
+  "Defines an observer value"
+  `(def ~observer (atom [])))
+
+(defmacro system [sys-name comps & observers]
   "Creates a system for entities and components"
   `(def ~(symbol (str sys-name "-system"))
      (atom {:components ~(into [] (for [comp comps] (keyword comp)))
             :update! ()
-            :observers []
             :entities ~(reduce conj (for [comp comps]
                                       {(keyword comp) []}))})))
 
@@ -49,7 +53,8 @@
 
 (defn- add-entity-to* [system entity]
   (doseq [component (:components @system)]
-    (swap! system update-in [:entities component] conj (component entity))))
+    (swap! system update-in [:entities component] conj (conj {:id (:id entity)}
+                                                             {component (component entity)}))))
 
 (defmacro add-entity-to [system entity]
   "Adds entity to a system"
