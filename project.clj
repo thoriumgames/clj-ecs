@@ -1,4 +1,4 @@
-(defproject clj-ecs "0.2.0"
+(defproject clj-ecs "0.2.1"
   :description "A painless Entity-Component-System library for Clojure."
   :url "http://github.com/thoriumgames/clj-ecs"
   :license {:name "Eclipse Public License"
